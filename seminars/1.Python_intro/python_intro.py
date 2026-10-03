@@ -5,6 +5,13 @@ app = marimo.App(width="medium", app_title="Python for AI - Lecture 1")
 
 
 @app.cell(hide_code=True)
+def _():
+    import marimo as mo
+
+    return (mo,)
+
+
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     # Lecture 1 - Python Basics
