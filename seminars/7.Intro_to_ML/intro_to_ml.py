@@ -737,12 +737,10 @@ def _(draw_degree_fits, make_wave_split):
 def _(mo):
     mo.md(r"""
     - **Underfitting**: the model is **too simple** - a line cannot follow a wave. It is bad on the training data
-      **and** on the validation data. It has not learned the pattern.
-    - **A good fit**: close to the truth, and almost as good on the validation points as on the training points.
+      **and** on the validation data. It has not learned the pattern. Typical pattern is **high train error and high validation error**.
+    - **A good fit**: close to the truth, and almost as good on the validation points as on the training points. Typical pattern is **moderately low train error and moderately low validation error**.
     - **Overfitting**: the model is **too complex**. It passes close to **every** training
-      point, including their noise. The training error is the smallest of the three, but between different training points it makes wild predictions - it **memorized** the training data instead of **learning the pattern**.
-
-    **The signs**: underfitting - high training error. Overfitting - low training error, but a much higher validation error.
+      point, including their noise. The training error is the smallest of the three, but between different training points it makes wild predictions - it **memorized** the training data instead of **learning the pattern**. Typical pattern is **very low train error and high validation error**.
 
     Now the training and validation error for models with increasing complexity:
     """)
@@ -964,7 +962,7 @@ def _(mo):
 
     - if the true class is $y = 1$, the loss is $-\log(\hat{y})$: small if the model gave class 1 a high probability
     - if the true class is $y = 0$, the loss is $-\log(1 - \hat{y})$: small if the model gave class 1 a low probability
-    - $-\log(p)$ takes values in $[0, +\infty)$ for $p \in (0, 1]$, so it makes sense for it to be a loss
+    - $-\log(p)$ takes values in $[0, +\infty)$ for $p \in (0, 1]$, so it makes sense for it to be a loss. Note that this property is one of the main reasons we use cross-entropy instead of MSE for loss functions of probabilities. If for some $i$ the model predicts $\hat{y_i}=1$, but actual $y_i=0$, MSE only adds $1/N$ to the loss, which is capped. This is obviously a problem, since the model very confidently said 1 when the real value is 0, and the model was barely penalized. Using cross entropy, the same example will add $+\infty$ to the loss (since $-\log(0)$ is approaching $\infty$), which will correctly heavily penalize such an obvious mistake by the model.
 
     A **confident wrong** answer is punished very hard: $-\log(0.01) \approx 4.6$, and $-\log(p) \to \infty$ as $p \to 0$.
 
